@@ -5,7 +5,6 @@ TODO
 import numpy as np
 from dill import dump
 from simple_linear_regr_utils import generate_data, evaluate
-from loss import sum_squared_error
 from log_manager.log_manager import app_logger
 from constants.model import MODEL_NAME
 
@@ -29,7 +28,7 @@ class SimpleLinearRegression:
         :return:
             loss: the sum of squared error
         """
-        loss = sum_squared_error(y, y_hat.T)
+        loss = self.__sum_squared_error(y, y_hat.T)
         self.losses.append(loss)
         return loss
 
@@ -85,6 +84,34 @@ class SimpleLinearRegression:
         """
         y_hat = np.dot(self.W, X.T) + self.b
         return y_hat
+
+
+    def __sum_squared_error(self, y, y_hat):
+        """
+        :param X: The training set
+        :param y: The true output of the training set
+        :return: SSE
+        """
+        return np.sum((y - y_hat) ** 2)
+
+
+    def __mean_squared_error(self, y, y_hat):
+        """
+        :param X: The training set
+        :param y: The true output of the training set
+        :return: MSE
+        """
+        return np.average((y - y_hat) ** 2)
+
+
+    def __root_mean_squared_error(self, y, y_hat):
+        """
+        :param X: The training set
+        :param y: The true output of the training set
+        :return: RMSE
+        """
+        mse = self.__mean_squared_error(y, y_hat)
+        return np.sqrt(mse)
 
 
 if __name__ == "__main__":
