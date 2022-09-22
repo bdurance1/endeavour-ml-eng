@@ -3,7 +3,8 @@ name: Build and Deploy to ECR
 on:
  
   push:
-    branches: [ master ]
+    branches: 
+      - main
 
 jobs:
   
