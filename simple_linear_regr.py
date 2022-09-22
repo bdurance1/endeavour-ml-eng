@@ -3,9 +3,12 @@ TODO
 """
 
 import numpy as np
-from numpy.typing import ArrayLike
+from dill import dump
 from simple_linear_regr_utils import generate_data, evaluate
 from loss import sum_squared_error
+from log_manager.log_manager import app_logger
+from constants.model import MODEL_NAME
+
 
 
 class SimpleLinearRegression:
@@ -63,13 +66,13 @@ class SimpleLinearRegression:
         y_hat = self.predict(X)
         loss = self.__loss(y, y_hat)
 
-        print(f"Initial Loss: {loss}")
-        
+        app_logger.debug(f"Initial Loss: {loss}")
+
         for i in range(self.iterations + 1):
             self.__sgd(X, y, y_hat)
             y_hat = self.predict(X)
             loss = self.__loss(y, y_hat)
-            
+
             if not i % 100:
                 print(f"Iteration {i}, Loss: {loss}")
 
@@ -90,3 +93,9 @@ if __name__ == "__main__":
     model.fit(X_train,y_train)
     predicted = model.predict(X_test)
     evaluate(model, X_test, y_test, predicted.T)
+
+    # TODO extend SimpleLinearRegression class with save and load methods.
+    app_logger.info("Saving model to disk")
+    model_path = f"{MODEL_NAME}.sav"
+    with open(model_path, 'wb') as f:
+        dump(model, f)
