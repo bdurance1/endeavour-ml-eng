@@ -17,7 +17,7 @@ module "ecs" {
 
   environment_variables = []
 
-  task_instances = 2
+  task_instances = 1
   vpc_id         = module.network.vpc_id
   subnets        = module.network.private_subnets_ids
 
@@ -25,8 +25,8 @@ module "ecs" {
   load_balancer_security_group_id = [module.load_balancer.security_group_id]
 
   enable_autoscaling = true
-  min_instances      = 2
-  max_instances      = 4
+  min_instances      = 1
+  max_instances      = 2
 
   cloudwatch_metric_alarm = aws_sns_topic.sns_topic.arn
 }
