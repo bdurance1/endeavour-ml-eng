@@ -2,3 +2,5 @@ numpy
 sklearn
 matplotlib
 pytest
+flask
+dill
