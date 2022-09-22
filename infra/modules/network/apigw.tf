@@ -123,3 +123,13 @@ resource "aws_route53_record" "this_services-a" {
     evaluate_target_health = false
   }
 }
+
+# resource "aws_route53_record" "this-ns" {
+#   allow_overwrite = true
+#   name            = aws_apigatewayv2_domain_name.this.domain_name
+#   ttl             = 3600
+#   type            = "NS"
+#   zone_id         = aws_route53_zone.this.zone_id
+
+#   records         = aws_route53_zone.this.name_servers 
+# }
