@@ -1,6 +1,6 @@
 
 from numpy.typing import ArrayLike
-from numpy import sum as summation  # avoid warning redefine built-in
+from numpy import sum as summation  # Avoid warning redefine built-in.
 from numpy import average
 from numpy import sqrt
 
