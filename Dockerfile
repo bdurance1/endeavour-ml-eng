@@ -10,6 +10,4 @@ WORKDIR /usr/src/app
 RUN pip3 install --no-cache-dir -r requirements.txt --trusted-host pypi.python.org \
     --trusted-host pypi.org --trusted-host files.pythonhosted.org
 
-ENTRYPOINT ["python3", "app.py"]
-
-# ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
+ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]

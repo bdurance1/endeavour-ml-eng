@@ -5,7 +5,7 @@ module "load_balancer" {
   namespace = "endv"
   name      = "service"
 
-  port                  = 8081
+  port                  = 5000
   vpc_id                = module.network.vpc_id
   subnet_ids            = module.network.private_subnets_ids
   sec_grp_ecs_id        = module.ecs.ecs_sec_grp_id
