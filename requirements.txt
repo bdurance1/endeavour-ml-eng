@@ -1,3 +1,7 @@
 numpy
 sklearn
 matplotlib
+pytest
+flask
+dill
+gunicorn
