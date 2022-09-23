@@ -1,72 +1,103 @@
-# ML - Engineering Challenge
 
-## Build a machine learning system
+# Prequisites 
 
-Welcome to the endeavour machine learning challenge! This challenge is designed to test a large variety of skills that a machine learning engineer would use in their day to day work. There are no restrictions in terms of technology required for this challenge other than the use of Python 3. You are free to use whichever technology or cloud provider you like. It's important to note that everyone has strong points and weak points. If you are strong in one or more areas, try to make that area shine. 
+It is recommended for a quick start to install VS Code to make use of *Remote Container* 
+as a development environment. Most if not all of the dependencies will taken care of. See 
+[Developing inside a Container](https://code.visualstudio.com/docs/remote/containers) for 
+further details. Alternatively, it will be on the Engineers onus, to ensure the dvelopment 
+environment is set up appropriately with *Python 3.10* and the appropriate packages, see 
+*requirements.txt*.
 
-The challenge description is as follows:
+Missing from the remote container development environment are the infrastructure 
+dependencies i.e. *Docker*, *Terraform CLI*, *AWS CLI*. Please make sure these are installed 
+and configure on your local machine. See [Docker](https://docs.docker.com/engine/install/), [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli?in=terraform/aws-get-started) and [AWS](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) for details. 
+Therefore, any instructions to execute Terraform, AWS or Docker commands should be down outside 
+of the VS Code Remote Container development environment, as I have not installed these dependencies within.
 
-#### 0. Take the code provided and upload it to a git repository of your choice. 
-After you complete the challenge, please add our team members as viewers to your repo.
+Finally, ensure you have an *AWS account* and the *associated credentials*. 
 
-#### 1. Please provide a high level overview of your systems design and its key components. 
-This could be a one pager, a readme.md or an architecture diagram. We will leave the implementation up to you. 
-
-#### 2. Create a simple linear regression model. 
-You will have to fill in the gaps in the `SimpleLinearRegression` class so that the code will run successfully.
-   
-The following functions need to be filled:
-
--  `__loss`: This function defines the loss function of your choice.
--  `__sgd`: We will use the Stochastic Gradient Descent Algorithm to optimise the slope and the intercept of our linear function. There are many resources online about SGD, However
-the most important formulas are :
-    
-![img.png](img.png)
-
-Where `n`is the number of sample in the training dataset. 
-
-Do your best to vectorize the formulas.
-
--  `__predict`our linear function to predict the outcome. The function of a simple line is defined as `y= wX + b`
-
-We have provided the benchmark code `benchmark.py`. Execute it and you should get the Coefficient of determination around `0.42`.
-A good implementation should return about the same Coefficient of determination or slightly higher. During the interview we could explore the time and memory complexity of your code. 
-
-**PS: If you are struggling implementing the above, consider using scikit-learn to progress to the next stages (but this is not encouraged).**
-
-3. Update `main.py` to make it an API for inference. Make the API invokable from a http request. The choice of web framework is up to you. 
-
-The API should have two endpoints:
-- `POST /stream` : which takes a payload of one record and return the prediction for that record.
-- `POST /batch` : which takes an array of multiple records and return an array of predictions
-
-Think about what other features an enterprise machine learning system would have. 
-
-#### 4. Package your code into a python package to make it easily installable and testable for developers. 
-
-#### 5. Package your code into a container and deploy it to a container registry of your choice.
-   
-#### 6. Create a CICD pipeline using the technology of your choice to deploy your code to production. 
-Think about what stages might be required in a full CICD pipeline. Your code should be invokable from a public URL.
-
-#### 7. Document what componenets an enterprise machine learning system would have if you had the time to add it. 
-What are some things that are critical to have versus nice to have?
+# Getting Started
+Clone the repository set up in challenge 0 and set up an isolated development environment. 
 
 
-## Assessment Criterion
+## Challenge 1
 
-We are not looking for a highly performant model. The criterion for this exercise is centered on a complete system that works well together and your ability to apply a machine learning inference to a real world use case. The following diagram speaks volumes about the reality of a machine learning engineer.
+### Service Architecture
+![img.png](simple-architecture.png)
 
-![img.png](mlsys.png)
+### Infrastructure Architecture to Host Service
 
-We are more interested in how your overall system works and the ancillary systems and components that are considered and better yet, implemented. As you complete the challenge, try to think about the following assessment criterion:
 
-- Does your solution work end to end?
-- Are there any unit tests or integration tests?
-- Has security/monitoring been considered? 
-- How is your solution documented? Is it easy to build on and for other developers to understand
-- How performant is your solution both from a code perspective and a scalability perspective as a service
-- Has due consideration been given to what a production ML system would require? This could be interactions or dependencies with other systems.
+## Challenge 2
+From the CLI execute `python benchmark.py` the original script provided with the Endeavour 
+ML Eng Challenge. From the CLI execute `python simple_linear_regr.py` the updated 
+script addressing the requirements of challenge 2. The engineer should see that the results 
+produced indicate a succesfull implementation of Stochastic Gradient Descent. 
 
-Good luck & have fun! 
+If so inclined, please feel free to run the unit tests by executing `pytest`. Alternatively, 
+these will be executed, along with linting on a push to the dev branch. 
+
+## Challenge 3
+As per challenge 3, the Simple Linear Regression model developed has been implemented as a 
+service. The service takes the form of a simple Flask application with Rest APIs, allowing 
+the model to be accesible for inference. The two enpoints "stream" and "batch" have been 
+replaced with a single endpoint "predict". There is no decernable difference in functionality. 
+
+Note, the filename main.py has been changed to app.py to support Flask. To run locally, 
+execute `flask run -p 8000` and then from a second session execute: 
+
+```
+curl -X GET http://0.0.0.0:8000/health
+curl -X GET http://0.0.0.0:8000/service
+curl -X GET http://0.0.0.0:8000/model
+curl -X POST http://0.0.0.0:8000/predict -H 'Content-Type: application/json' -d '[[0.001]]
+curl -X POST http://0.0.0.0:8000/predict -H 'Content-Type: application/json' -d '[[0.001, 0.05, -0.015]]'
+```
+
+Succesfull implementation of the above service, should return the following repsonses:
+* ok
+* {"name":"endeavour_ml_eng_challenge_service","version":"latest"}
+* {"name":"endeavour_ml_eng_challenge_model"}
+* [[153.8569578995983]]
+* [[153.8569578995983,199.81740527178528,138.84946488010868]]
+
+As, you should see there is no decernable difference in fucntionallity between a request with 
+a single record vs multiple records. 
+
+## Challenge 4
+
+## Challenge 5
+Challenge 5 requires the build, run and deployment of a container. 
+
+```
+docker build -t endv-ml-eng .
+docker run -d -p 8000:8000 endv-ml-eng
+```
+
+To test the service functionallity locally, after the container is running execute the above curl 
+commands from the same space you executed the docker build and run. You should see that the 
+response is the same as running the app directly. The container registry choosen to deploy to is 
+AWS' Elastic Container Registry and has been deployed via GitHub Actions.
+
+To set up the required infrastructure execute the following from the **infra** folder.
+
+```
+terraform init
+terraform plan
+terraform apply --auto-approve
+```
+
+To image will be pushed to the AWS ECR on a push to the main branch, alternatively it can be executed 
+manually via GitHub Actions or via the CLI. See the following file **.github/workflow/build_deploy_container**, 
+at present the tag being used is *latest*.
+
+```
+docker build -t <ecr registry>/<ecr repo>:<image tag> .
+docker push <ecr registry>/<ecr repo>:<image tag>
+```
+
+## Challenge 6
+
+
+## Challenge 7
 
