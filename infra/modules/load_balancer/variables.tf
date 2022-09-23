@@ -9,7 +9,7 @@ variable "namespace" {
 }
 
 variable "name" {
-  description = "Component or solution name eg. 'auth' or 'profile'."
+  description = "Component or solution name."
   type = string
 }
 
@@ -39,7 +39,7 @@ variable "sec_grp_ecs_id" {
 }
 
 variable "health_check_route" {
-  description = "Health check route eg. /api/v1/chat-server/healthcheck."
+  description = "Health check route."
   type = string
   default = null
 }

@@ -8,7 +8,7 @@ module "ecs" {
   ecr_url   = "651002364466.dkr.ecr.ap-southeast-2.amazonaws.com/endv-ml-eng"  # FIXME: module.ecr.container_repository_url
   image_tag = "latest"
 
-  container_port = 5000
+  container_port = 8000
   container_cpu  = 2048
   container_mem  = 16384
 
