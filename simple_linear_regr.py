@@ -14,7 +14,7 @@ class SimpleLinearRegression:
     """
     TODO
     """
-    def __init__(self, iterations = 15000, learning_rate = 0.1):
+    def __init__(self, iterations = 18000, learning_rate = 0.1):
         self.iterations = iterations
         self.learning_rate = learning_rate
         self.losses = []

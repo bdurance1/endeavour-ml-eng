@@ -91,8 +91,6 @@ resource "aws_apigatewayv2_stage" "this" {
 # ==========================
 
 resource "aws_apigatewayv2_domain_name" "this" {
-  count = var.map_domain_name ? 1:0
-
   domain_name = var.domain_name
 
   domain_name_configuration {
@@ -103,33 +101,28 @@ resource "aws_apigatewayv2_domain_name" "this" {
 }
 
 resource "aws_apigatewayv2_api_mapping" "name" {
-  count = var.map_domain_name ? 1:0
-
   api_id      = aws_apigatewayv2_api.this.id
-  domain_name = aws_apigatewayv2_domain_name.this[count.index].id
+  domain_name = aws_apigatewayv2_domain_name.this.id
   stage       = aws_apigatewayv2_stage.this.id
 }
 
 resource "aws_route53_record" "this_services-a" {
-  count = var.map_domain_name ? 1:0
-
-  name    = aws_apigatewayv2_domain_name.this[count.index].domain_name
+  name    = aws_apigatewayv2_domain_name.this.domain_name
   type    = "A"
   zone_id = aws_route53_zone.this.zone_id
 
   alias {
-    name                   = aws_apigatewayv2_domain_name.this[count.index].domain_name_configuration[0].target_domain_name
-    zone_id                = aws_apigatewayv2_domain_name.this[count.index].domain_name_configuration[0].hosted_zone_id
+    name                   = aws_apigatewayv2_domain_name.this.domain_name_configuration[0].target_domain_name
+    zone_id                = aws_apigatewayv2_domain_name.this.domain_name_configuration[0].hosted_zone_id
     evaluate_target_health = false
   }
 }
 
-# resource "aws_route53_record" "this-ns" {
-#   allow_overwrite = true
-#   name            = aws_apigatewayv2_domain_name.this.domain_name
-#   ttl             = 3600
-#   type            = "NS"
-#   zone_id         = aws_route53_zone.this.zone_id
+resource "aws_route53_record" "this-ns" {
+  allow_overwrite = true
+  name            = aws_apigatewayv2_domain_name.this.domain_name
+  ttl             = 3600
+  type            = "NS"
+  zone_id         = aws_route53_zone.this.zone_id
 
-#   records         = aws_route53_zone.this.name_servers 
-# }
+}

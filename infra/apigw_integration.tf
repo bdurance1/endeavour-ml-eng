@@ -14,7 +14,7 @@ resource "aws_apigatewayv2_integration" "this" {
 
 resource "aws_apigatewayv2_route" "get" {
   api_id    = module.network.apigateway_id
-  route_key = "GET /health"
+  route_key = "GET /{proxy+}"
   target    = "integrations/${aws_apigatewayv2_integration.this.id}"
 }
 
