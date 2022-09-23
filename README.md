@@ -17,8 +17,9 @@ of the VS Code Remote Container development environment, as I have not installed
 Finally, ensure you have an *AWS account* and the *associated credentials*. 
 
 # Getting Started
-Clone the repository set up in challenge 0 and set up an isolated development environment. 
 
+## Chanllenge 0
+Clone the repository set up in challenge 0 and set up an isolated development environment. 
 
 ## Challenge 1
 
@@ -35,7 +36,7 @@ script addressing the requirements of challenge 2. The engineer should see that 
 produced indicate a succesfull implementation of Stochastic Gradient Descent. 
 
 If so inclined, please feel free to run the unit tests by executing `pytest`. Alternatively, 
-these will be executed, along with linting on a push to the dev branch. 
+these will be executed, along with linting on a push to the dev branch see **.github/workflow/python_lint_test.yml**. 
 
 ## Challenge 3
 As per challenge 3, the Simple Linear Regression model developed has been implemented as a 
@@ -65,6 +66,7 @@ As, you should see there is no decernable difference in fucntionallity between a
 a single record vs multiple records. 
 
 ## Challenge 4
+Skipped due to time cosntraints. 
 
 ## Challenge 5
 Challenge 5 requires the build, run and deployment of a container. 
@@ -88,7 +90,7 @@ terraform apply --auto-approve
 ```
 
 To image will be pushed to the AWS ECR on a push to the main branch, alternatively it can be executed 
-manually via GitHub Actions or via the CLI. See the following file **.github/workflow/build_deploy_container**, 
+manually via GitHub Actions or via the CLI. See the following file **.github/workflow/build_deploy_container.yml**, 
 at present the tag being used is *latest*.
 
 ```
@@ -96,8 +98,33 @@ docker build -t <ecr registry>/<ecr repo>:<image tag> .
 docker push <ecr registry>/<ecr repo>:<image tag>
 ```
 
-## Challenge 6
+## Challenge 6 & 7
+ML Pipeline Stages if time was permitting:
 
+1. Data Ingestion
+2. Data Versioning
+3. Data Validation
+4. Data Preprocessing
+5. Model Training, Model Tuning
+6. Model Analysis
+7. Model Validation
+8. Model Deployment
+9. Model Feedback
 
-## Challenge 7
+What this doesn't consider are the ancillary systems CI/CD i.e. infrastructure 
+ex. AWS, artifactories ex. JFrog, tracking ex. Weights and Baiases and logging, 
+monitoring and alerting etc. The list goes on.  
+
+The code in its current state couples a lot of these stages together, which is not 
+optimal. Pipeline tools e.g. Airflow, Beam, KubeFLow etc. could be used for scheduling 
+and orchestration of an ML pipeline. The pipeline tools can then be integrated into 
+a CICD tool ex. GitHub Actions, Jenkins etc. Curerntly, due to time constraints I 
+have relied soley on the GitHub Actions for CD i.e. continuously deploying and delivering 
+the service to ECR and ECS. 
+
+Critical vs Nice to Have generally comes down to costs and balancing ROI and risk. Without 
+getting to philosophical I could argue all of the above components and ancillary systems are 
+critically for a highly reliable, scalable and maintainable apllication. However this is 
+unrealistic. If I was restricted to some key components that I would consider absolutely 
+necessary they would be, highly skilled, motivated and dedicated Engineers.
 
