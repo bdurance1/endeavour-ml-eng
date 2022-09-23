@@ -25,8 +25,8 @@ Clone the repository set up in challenge 0 and set up an isolated development en
 ### Service Architecture
 ![img.png](simple-architecture.png)
 
-### Infrastructure Architecture to Host Service
-
+### Infrastructure to Host Service Architecture 
+![img.png](infrastructure-architecture.png)
 
 ## Challenge 2
 From the CLI execute `python benchmark.py` the original script provided with the Endeavour 
